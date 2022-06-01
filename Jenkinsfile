@@ -10,7 +10,7 @@ def backupTasks = [:]
 def restoreTasks = [:]
 def dropDbTasks = [:]
 def createDbTasks = [:]
-
+def runSmoke1cTasks = [:]
 def updateDbTasks = [:]
 
 pipeline {
@@ -123,6 +123,12 @@ pipeline {
                                 admin1cUser, 
                                 admin1cPwd
                             )
+                            runSmoke1cTasks["runSmoke1cTask_${testbase}"] = runSmoke1cTask(
+                                testbase,
+                                admin1cUser,
+                                admin1cPwd,
+                                testbaseConnString
+                            )
                             
                         }
 
@@ -131,6 +137,7 @@ pipeline {
                         parallel restoreTasks
                         parallel createDbTasks
                         parallel updateDbTasks
+                        parallel runSmoke1cTasks
                         
                     }
                 }
