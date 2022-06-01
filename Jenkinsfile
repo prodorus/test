@@ -222,3 +222,17 @@ def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, c
         }
     }
 }
+
+def runSmoke1cTask(infobase, admin1cUser, admin1cPwd, testbaseConnString) {
+    return {
+        stage("Запуск 1с обработки на ${infobase}") {
+            timestamps {
+                def projectHelpers = new ProjectHelpers()
+                projectHelpers.unlocking1cBase(testbaseConnString, admin1User, admin1cPwd)
+            }
+
+        }
+        
+    }
+
+}
