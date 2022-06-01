@@ -206,7 +206,7 @@ def restoreTask(serverSql, infobase, backupPath, sqlUser, sqlPwd) {
 
 
 
-def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd) {
+def updateDbTask(platform1c, infobase, storage1cPath, storageUser, connString, admin1cUser, admin1cPwd) {
     return {
         stage("Загрузка из хранилища ${infobase}") {
             timestamps {
@@ -216,7 +216,7 @@ def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, c
                     return
                 }
 
-                prHelpers.loadCfgFrom1CStorage(storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd, platform1c)
+                prHelpers.loadCfgFrom1CStorage(storage1cPath, storageUser, connString, admin1cUser, admin1cPwd, platform1c)
                 prHelpers.updateInfobase(connString, admin1cUser, admin1cPwd, platform1c)
             }
         }
