@@ -2,6 +2,9 @@
 import io.libs.SqlUtils
 import io.libs.ProjectHelpers
 import io.libs.Utils
+import jenkins.model.*
+
+jenkins = Jenkins.instance
 
 def sqlUtils = new SqlUtils()
 def utils = new Utils()
