@@ -154,7 +154,7 @@ pipeline {
             }
         }
     }
-}
+
 
 
 def dropDbTask(server1c, server1cPort, serverSql, infobase, admin1cUser, admin1cPwd, sqluser, sqlPwd) {
