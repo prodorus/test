@@ -214,6 +214,7 @@ def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, c
         stage("Загрузка из хранилища ${infobase}") {
             timestamps {
                 prHelpers = new ProjectHelpers()
+                admin1cPwd = ""
 
                 if (storage1cPath == null || storage1cPath.isEmpty()) {
                     return
