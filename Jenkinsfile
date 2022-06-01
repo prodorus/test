@@ -123,7 +123,7 @@ pipeline {
                                 admin1cUser, 
                                 admin1cPwd
                             )
-                            runSmoke1cTasks["runSmoke1cTask_${testbase}"] = runSmoke1cTask(
+                            runSmoke1cTasks["runSmoke1cTask_${templateDb}"] = runSmoke1cTask(
                                 testbase,
                                 admin1cUser,
                                 admin1cPwd,
