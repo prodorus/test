@@ -12,5 +12,14 @@
         "--workspace": ".",
         "--pathvanessa": ".",
         "--additional": "/DisplayAllFunctions /L ru"
+    },
+    
+    "xunit": {
+        "--xddConfig": "./tools/json/xUnitParams.json",
+        "--reportsxunit": "ГенераторОтчетаAllureXML{out/smoke/allure.json}",
+        "--workspace": ".",
+        "--pathxunit": "$addRoot/xddTestRunner.epf",
+        "testsPath": "./tests/smoke"
     }
+
 }

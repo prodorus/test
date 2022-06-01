@@ -10,7 +10,7 @@ def backupTasks = [:]
 def restoreTasks = [:]
 def dropDbTasks = [:]
 def createDbTasks = [:]
-def runHandlers1cTasks = [:]
+
 def updateDbTasks = [:]
 
 pipeline {
@@ -123,13 +123,7 @@ pipeline {
                                 admin1cUser, 
                                 admin1cPwd
                             )
-                            // 6. Запускаем внешнюю обработку 1С, которая очищает базу от всплывающего окна с тем, что база перемещена при старте 1С
-                            runHandlers1cTasks["runHandlers1cTask_${testbase}"] = runHandlers1cTask(
-                                testbase, 
-                                admin1cUser, 
-                                admin1cPwd,
-                                testbaseConnString
-                            )
+                            
                         }
 
                         parallel dropDbTasks
@@ -137,7 +131,7 @@ pipeline {
                         parallel restoreTasks
                         parallel createDbTasks
                         parallel updateDbTasks
-                        parallel runHandlers1cTasks
+                        
                     }
                 }
             }
@@ -248,16 +242,7 @@ def restoreTask(serverSql, infobase, backupPath, sqlUser, sqlPwd) {
     }
 }
 
-def runHandlers1cTask(infobase, admin1cUser, admin1cPwd, testbaseConnString) {
-    return {
-        stage("Запуск 1с обработки на ${infobase}") {
-            timestamps {
-                def projectHelpers = new ProjectHelpers()
-                projectHelpers.unlocking1cBase(testbaseConnString, admin1cUser, admin1cPwd)
-            }
-        }
-    }
-}
+
 
 def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd) {
     return {
