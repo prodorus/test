@@ -228,7 +228,7 @@ def runSmoke1cTask(infobase, admin1cUser, admin1cPwd, testbaseConnString) {
         stage("Запуск 1с обработки на ${infobase}") {
             timestamps {
                 def projectHelpers = new ProjectHelpers()
-                projectHelpers.unlocking1cBase(testbaseConnString, admin1User, admin1cPwd)
+                projectHelpers.unlocking1cBase(testbaseConnString, admin1cUser, admin1cPwd)
             }
 
         }
