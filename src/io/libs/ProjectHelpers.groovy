@@ -115,7 +115,7 @@ def dropDb(server1c, agentPort, serverSql, base, admin1cUser, admin1cPwd, sqluse
 // Параметры:
 //
 //
-def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, admin1cUser, admin1cPassword, platform) {
+def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, platform) {
     utils = new Utils()
 
     storagePwdLine = ""
@@ -128,7 +128,7 @@ def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, admin1
         platformLine = "--v8version ${platform}"
     }
 
-    returnCode = utils.cmd("runner loadrepo --storage-name ${storageTCP} --storage-user ${storageUser} ${storagePwdLine} --ibconnection ${connString} --db-user ${admin1cUser} --db-pwd ${admin1cPassword} ${platformLine}")
+    returnCode = utils.cmd("runner loadrepo --storage-name ${storageTCP} --storage-user ${storageUser} ${storagePwdLine} --ibconnection ${connString}  ${platformLine}")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из 1С хранилища  ${storageTCP} завершилась с ошибкой. Для подробностей смотрите логи.")
     }
