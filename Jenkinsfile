@@ -122,9 +122,7 @@ pipeline {
                                 storage1cPath, 
                                 storageUser, 
                                 storagePwd, 
-                                testbaseConnString, 
-                                admin1cUser, 
-                                admin1cPwd
+                                testbaseConnString
                             )
                             runSmoke1cTasks["runSmoke1cTask_${testbase}"] = runSmoke1cTask(
                                 testbase,
@@ -221,7 +219,7 @@ def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, c
                 }
                 
 
-                prHelpers.loadCfgFrom1CStorage(storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd, platform1c)
+                prHelpers.loadCfgFrom1CStorage(storage1cPath, storageUser, storagePwd, connString, platform1c)
                 prHelpers.updateInfobase(connString, admin1cUser, admin1cPwd, platform1c)
             }
         }
