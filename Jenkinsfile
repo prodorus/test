@@ -122,9 +122,7 @@ pipeline {
                                 storage1cPath, 
                                 storageUser, 
                                 storagePwd, 
-                                testbaseConnString, 
-                                admin1cUser, 
-                                admin1cPwd
+                                testbaseConnString
                             )
                             runSmoke1cTasks["runSmoke1cTask_${testbase}"] = runSmoke1cTask(
                                 testbase,
@@ -209,8 +207,8 @@ def restoreTask(serverSql, infobase, backupPath, sqlUser, sqlPwd) {
 
 
 
-def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd) {
-    return {
+def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, connString ) {
+    return {min
         stage("Загрузка из хранилища ${infobase}") {
             timestamps {
                 prHelpers = new ProjectHelpers()
@@ -222,7 +220,7 @@ def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, c
                 
 
                 prHelpers.loadCfgFrom1CStorage(storage1cPath, storageUser, storagePwd, connString, platform1c)
-                prHelpers.updateInfobase(connString, admin1cUser, admin1cPwd, platform1c)
+                prHelpers.updateInfobase(connString, platform1c)
             }
         }
     }

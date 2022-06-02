@@ -143,17 +143,10 @@ def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, platfo
 //  admin1cUser - администратор базы
 //  admin1cPassword - пароль администратора базы
 //
-def updateInfobase(connString, admin1cUser, admin1cPassword, platform) {
+def updateInfobase(connString, platform) {
 
     utils = new Utils()
-    admin1cUserLine = "";
-    if (!admin1cUser.isEmpty()) {
-        admin1cUserLine = "--db-user ${admin1cUser}"
-    }
-    admin1cPassLine = "";
-    if (!admin1cPassword.isEmpty()) {
-        admin1cPassLine = "--db-pwd ${admin1cPassword}"
-    }
+    
     platformLine = ""
     if (platform != null && !platform.isEmpty()) {
         platformLine = "--v8version ${platform}"
