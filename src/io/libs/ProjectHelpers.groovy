@@ -115,7 +115,7 @@ def dropDb(server1c, agentPort, serverSql, base, admin1cUser, admin1cPwd, sqluse
 // Параметры:
 //
 //
-def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, admin1cUser, admin1cPassword, platform) {
+def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, platform) {
     utils = new Utils()
 
     storagePwdLine = ""
