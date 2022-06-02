@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/silverbulleters/vanessa-runner/develop/vanessa-runner-schema.json",
     "default": {
-        "--ibconnection": "/SDESKTOP-395CSTS:1541/jenbase",
+        "--ibconnection": "/SDESKTOP-395CSTS:1541/jenbase2",
         "--db-user": "",
         "--db-pwd": "",
         "--ordinaryapp": "0",
@@ -18,8 +18,7 @@
         "--xddConfig": "./tools/json/xUnitParams.json",
         "--reportsxunit": "ГенераторОтчетаAllureXML{out/smoke/allure.json}",
         "--workspace": ".",
-        "--pathxunit": "$addRoot/xddTestRunner.epf",
-        "testsPath": "./tests/smoke"
+        "--pathxunit": "tools/add/xddTestRunner.epf",
+        "testsPath": "smoke"
     }
-
 }
