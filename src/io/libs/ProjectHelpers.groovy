@@ -115,7 +115,7 @@ def dropDb(server1c, agentPort, serverSql, base, admin1cUser, admin1cPwd, sqluse
 // Параметры:
 //
 //
-def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, platform) {
+def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, admin1cUser, admin1cPassword, platform) {
     utils = new Utils()
 
     storagePwdLine = ""
@@ -128,7 +128,7 @@ def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, platfo
         platformLine = "--v8version ${platform}"
     }
 
-    returnCode = utils.cmd("runner loadrepo --storage-name ${storageTCP} --storage-user ${storageUser} ${storagePwdLine} --ibconnection ${connString}  ${platformLine}")
+    returnCode = utils.cmd("runner loadrepo --storage-name ${storageTCP} --storage-user ${storageUser} ${storagePwdLine} --ibconnection ${connString} --db-user ${admin1cUser} --db-pwd ${admin1cPassword} ${platformLine}")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из 1С хранилища  ${storageTCP} завершилась с ошибкой. Для подробностей смотрите логи.")
     }
@@ -143,16 +143,23 @@ def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, platfo
 //  admin1cUser - администратор базы
 //  admin1cPassword - пароль администратора базы
 //
-def updateInfobase(connString, platform) {
+def updateInfobase(connString, admin1cUser, admin1cPassword, platform) {
 
     utils = new Utils()
-    
+    admin1cUserLine = "";
+    if (!admin1cUser.isEmpty()) {
+        admin1cUserLine = "--db-user ${admin1cUser}"
+    }
+    admin1cPassLine = "";
+    if (!admin1cPassword.isEmpty()) {
+        admin1cPassLine = "--db-pwd ${admin1cPassword}"
+    }
     platformLine = ""
     if (platform != null && !platform.isEmpty()) {
         platformLine = "--v8version ${platform}"
     }
 
-    returnCode = utils.cmd("runner updatedb --ibconnection ${connString}  ${platformLine}")
+    returnCode = utils.cmd("runner updatedb --ibconnection ${connString} ${admin1cUserLine} ${admin1cPassLine} ${platformLine}")
     if (returnCode != 0) {
         utils.raiseError("Обновление базы ${connString} в режиме конфигуратора завершилось с ошибкой. Для дополнительной информации смотрите логи")
     }
