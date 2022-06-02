@@ -219,6 +219,14 @@ def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, c
                 if (storage1cPath == null || storage1cPath.isEmpty()) {
                     return
                 }
+
+                if (admin1cUser == null || admin1cUser.isEmpty()) {
+                    return
+                }
+
+                if (admin1cPwd == null || admin1cPwd.isEmpty()) {
+                    return
+                }
                 
 
                 prHelpers.loadCfgFrom1CStorage(storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd, platform1c)
