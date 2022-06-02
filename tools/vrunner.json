@@ -15,7 +15,7 @@
     },
     
     "xunit": {
-        "--xddConfig": ".tools/xUnitParams.json",
+        "--xddConfig": "tools/xUnitParams.json",
         "--reportsxunit": "ГенераторОтчетаAllureXML{out/smoke/allure.json}",
         "--workspace": ".",
         "--pathxunit": "tools/add/xddTestRunner.epf",
