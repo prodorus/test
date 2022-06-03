@@ -148,7 +148,7 @@ pipeline {
             }
         }
 
-        stage("Тестирование ADD") {
+        stage("Проведение дымовых тестов") {
             steps {
                 timestamps {
                     script {
