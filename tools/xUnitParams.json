@@ -22,8 +22,8 @@
     "SmokeCommonModules": {
         "Subsystems": ["*"],
         "ExcludedCommonModules": ["Пользователи", "users"]
-    }
-    
+    },
+
     "ДелатьОтчетВФорматеАллюр": true,
     "КаталогOutputAllureБазовый": "$workspaceRoot/build/out/allure",
     "ВРЕМЕННО_ОТКЛЮЧЕН_ДелатьОтчетВФорматеCucumberJson": true,
