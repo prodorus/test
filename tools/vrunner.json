@@ -16,7 +16,7 @@
     
     "xunit": {
         "--xddConfig": "tools/xUnitParams.json",
-        "--reportsxunit": "ГенераторОтчетаAllureXML{out/smoke/allure.json}",
+        "--reportsxunit": "ГенераторОтчетаAllureXML{build/out/allure.json}",
         "--workspace": ".",
         "--pathxunit": "tools/add/xddTestRunner.epf",
         "testsPath": "smoke"
