@@ -182,7 +182,7 @@ pipeline {
             }
         }
     }   
-    post {
+    post { 
         always {
             script {
                 if (currentBuild.result == "ABORTED") {
