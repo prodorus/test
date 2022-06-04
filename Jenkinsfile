@@ -193,7 +193,7 @@ pipeline {
                     writeFile file:'environment.properties', text:"Build=${env.BUILD_URL}"
                 }
 
-                allure includeProperties: false, jdk: '', results: [[path: 'build/out/allure']]
+                allure  includeProperties: false, jdk: '', results: [[path: 'build/out/allure']
             }
         }
     }
