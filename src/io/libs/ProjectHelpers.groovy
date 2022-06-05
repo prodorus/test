@@ -61,6 +61,10 @@ def getConnString(server1c, infobase, agent1cPort) {
     return "/S${server1c}:${agent1cPort}\\${infobase}"
 }
 
+def getConnString1(local, infobase) {
+    return "/F${local}\\${infobase}"
+}
+
 // Удаляет базу из кластера через powershell.
 //
 // Параметры:
