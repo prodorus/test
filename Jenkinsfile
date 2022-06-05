@@ -80,7 +80,7 @@ pipeline {
                             storage1cPath = storages1cPathList[i]
                             testbase = "${templateDb}"
                             
-                            if (server1c != null or !server1c.isEmpty()) {
+                            if (server1c != null && !server1c.isEmpty()) {
                                 testbaseConnString = projectHelpers.getConnString(server1c, testbase, agent1cPort)
                             } else testbaseConnString = projectHelpers.getConnString1(local,testbase)
                             
