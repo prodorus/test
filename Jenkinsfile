@@ -55,7 +55,7 @@ pipeline {
                             assert storages1cPathList.size() == templatebasesList.size()
                         }
 
-                        server1c = server1c.isEmpty() ? "localhost" : server1c
+                        
                         serverSql = serverSql.isEmpty() ? "localhost" : serverSql
                         server1cPort = server1cPort.isEmpty() ? "1540" : server1cPort
                         agent1cPort = agent1cPort.isEmpty() ? "1541" : agent1cPort
