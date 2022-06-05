@@ -152,94 +152,9 @@ pipeline {
 
   
 }
-        
   
     
 
-
-
-def dropDbTask(server1c, server1cPort, serverSql, infobase, admin1cUser, admin1cPwd, sqluser, sqlPwd) {
-    return {
-        timestamps {
-            stage("Удаление ${infobase}") {
-                def projectHelpers = new ProjectHelpers()
-                def utils = new Utils()
-
-                projectHelpers.dropDb(server1c, server1cPort, serverSql, infobase, admin1cUser, admin1cPwd, sqluser, sqlPwd)
-            }
-        }
-    }
-}
-
-def createDbTask(server1c, serverSql, platform1c, infobase) {
-    return {
-        stage("Создание базы ${infobase}") {
-            timestamps {
-                def projectHelpers = new ProjectHelpers()
-                try {
-                    projectHelpers.createDb(platform1c, server1c, serversql, infobase, null, false)
-                } catch (excp) {
-                    echo "Error happened when creating base ${infobase}. Probably base already exists in the ibases.v8i list. Skip the error"
-                }
-            }
-        }
-    }
-}
-
-def backupTask(serverSql, infobase, backupPath, sqlUser, sqlPwd) {
-    return {
-        stage("sql бекап ${infobase}") {
-            timestamps {
-                def sqlUtils = new SqlUtils()
-
-                sqlUtils.checkDb(serverSql, infobase, sqlUser, sqlPwd)
-                sqlUtils.backupDb(serverSql, infobase, backupPath, sqlUser, sqlPwd)
-            }
-        }
-    }
-}
-
-def restoreTask(serverSql, infobase, backupPath, sqlUser, sqlPwd) {
-    return {
-        stage("Востановление ${infobase} бекапа") {
-            timestamps {
-                sqlUtils = new SqlUtils()
-
-                sqlUtils.createEmptyDb(serverSql, infobase, sqlUser, sqlPwd)
-                sqlUtils.restoreDb(serverSql, infobase, backupPath, sqlUser, sqlPwd)
-            }
-        }
-    }
-}
-
-
-
-def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd) {
-    return {
-        stage("Загрузка из хранилища ${infobase}") {
-            timestamps {
-                prHelpers = new ProjectHelpers()
-    
-
-                if (storage1cPath == null || storage1cPath.isEmpty()) {
-                    return
-                }
-
-                if (admin1cUser == null || admin1cUser.isEmpty()) {
-                    return
-                }
-
-                if (admin1cPwd == null || admin1cPwd.isEmpty()) {
-                    return
-                }
-                
-
-                prHelpers.loadCfgFrom1CStorage(storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd, platform1c)
-                prHelpers.updateInfobase(connString, admin1cUser, admin1cPwd, platform1c)
-            }
-        }
-    }
-}
 
 def runSmoke1cTask(infobase, admin1cUser, admin1cPwd, testbaseConnString) {
     return {
