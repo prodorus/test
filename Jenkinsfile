@@ -143,13 +143,12 @@ pipeline {
                             
                         }
 
-                        
                         parallel dropDbTasks
                         parallel backupTasks
                         parallel restoreTasks
                         parallel createDbTasks
                         parallel updateDbTasks
-                        parallel runHandlers1cTasks
+                        parallel runSmoke1cTasks
                         
                     }
                 }
