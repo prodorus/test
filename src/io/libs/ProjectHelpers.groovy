@@ -132,7 +132,13 @@ def loadCfgFrom1CStorage(storageTCP, storageUser, storagePwd, connString, admin1
         platformLine = "--v8version ${platform}"
     }
 
-    returnCode = utils.cmd("runner loadrepo --storage-name ${storageTCP} --storage-user ${storageUser} ${storagePwdLine} --ibconnection ${connString} --db-user ${admin1cUser} --db-pwd ${admin1cPassword} ${platformLine}")
+
+    returnCode = utils.cmd("git clone https://github.com/prodorus/1cconf1")
+    if (returnCode != 0) {
+         utils.raiseError("Загрузка конфигурации из 1С хранилища  ${storageTCP} завершилась с ошибкой. Для подробностей смотрите логи.")
+    }
+
+    returnCode = utils.cmd("1cv8 DESIGNER /IBName ${connString}  /LoadConfigFromFiles")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из 1С хранилища  ${storageTCP} завершилась с ошибкой. Для подробностей смотрите логи.")
     }
