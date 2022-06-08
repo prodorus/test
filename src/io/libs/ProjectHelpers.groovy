@@ -119,17 +119,17 @@ def dropDb(server1c, agentPort, serverSql, base, admin1cUser, admin1cPwd, sqluse
 // Параметры:
 //
 //
-def loadCfgFrom1CStorage(connString, admin1cUser, admin1cPassword, platform) {
+def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform) {
     utils = new Utils()
 
     returnCode = utils.cmd("git pull https://github.com/prodorus/1cconf1")
     if (returnCode != 0) {
-         utils.raiseError("Загрузка конфигурации из 1С хранилища  ${storageTCP} завершилась с ошибкой. Для подробностей смотрите логи.")
+         utils.raiseError("Загрузка конфигурации из 1С хранилища  ${infobase} завершилась с ошибкой. Для подробностей смотрите логи.")
     }
 
-    returnCode = utils.cmd("1cv8 DESIGNER /IBName ${connString}  /LoadConfigFromFiles")
+    returnCode = utils.cmd("1cv8 DESIGNER /IBName ${infobase}  /LoadConfigFromFiles")
     if (returnCode != 0) {
-         utils.raiseError("Загрузка конфигурации из 1С хранилища  ${storageTCP} завершилась с ошибкой. Для подробностей смотрите логи.")
+         utils.raiseError("Загрузка конфигурации из 1С хранилища  ${infobase} завершилась с ошибкой. Для подробностей смотрите логи.")
     }
 }
 

@@ -228,11 +228,7 @@ def updateDbTask(platform1c, infobase, connString, admin1cUser, admin1cPwd) {
             timestamps {
                 prHelpers = new ProjectHelpers()
 
-                if (storage1cPath == null || storage1cPath.isEmpty()) {
-                    return
-                }
-
-                prHelpers.loadCfgFrom1CStorage(connString, admin1cUser, admin1cPwd, platform1c)
+                prHelpers.loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPwd, platform1c)
                 prHelpers.updateInfobase(connString, admin1cUser, admin1cPwd, platform1c)
             }
         }
