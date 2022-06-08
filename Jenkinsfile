@@ -225,7 +225,7 @@ def runSmoke1cTask(infobase, admin1cUser, admin1cPwd, testbaseConnString) {
 
 }
 
-def updateDbTask(platform1c, infobase, storage1cPath, storageUser, storagePwd, connString, admin1cUser, admin1cPwd) {
+def updateDbTask(platform1c, infobase, connString, admin1cUser, admin1cPwd) {
     return {
         stage("Загрузка из хранилища ${infobase}") {
             timestamps {
