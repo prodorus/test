@@ -125,9 +125,6 @@ pipeline {
                             updateDbTasks["updateTask_${testbase}"] = updateDbTask(
                                 platform1c,
                                 testbase, 
-                                storage1cPath, 
-                                storageUser, 
-                                storagePwd, 
                                 testbaseConnString, 
                                 admin1cUser, 
                                 admin1cPwd
