@@ -31,9 +31,7 @@ pipeline {
         string(defaultValue: "${env.sqlUser}", description: 'Имя администратора сервера MS SQL. Если пустой, то используется доменная  авторизация', name: 'sqlUser')
         string(defaultValue: "${env.sqlPwd}", description: 'Пароль администратора MS SQL.  Если пустой, то используется доменная  авторизация', name: 'sqlPwd')
         string(defaultValue: "${env.templatebases}", description: 'Список баз для тестирования через запятую. Например work_erp,work_upp', name: 'templatebases')
-        string(defaultValue: "${env.storages1cPath}", description: 'Необязательный. Пути к хранилищам 1С для обновления копий баз тестирования через запятую. Число хранилищ (если указаны), должно соответствовать числу баз тестирования. Например D:/temp/storage1c/erp,D:/temp/storage1c/upp', name: 'storages1cPath')
-        string(defaultValue: "${env.storageUser}", description: 'Необязательный. Администратор хранилищ  1C. Должен быть одинаковым для всех хранилищ', name: 'storageUser')
-        string(defaultValue: "${env.storagePwd}", description: 'Необязательный. Пароль администратора хранилищ 1c', name: 'storagePwd')
+       
     }
 
     agent {
@@ -49,11 +47,7 @@ pipeline {
                 timestamps {
                     script {
                         templatebasesList = utils.lineToArray(templatebases.toLowerCase())
-                        storages1cPathList = utils.lineToArray(storages1cPath.toLowerCase())
-
-                        if (storages1cPathList.size() != 0) {
-                            assert storages1cPathList.size() == templatebasesList.size()
-                        }
+                        
 
                         
                         serverSql = serverSql.isEmpty() ? "localhost" : serverSql
@@ -77,7 +71,7 @@ pipeline {
 
                         for (i = 0;  i < templatebasesList.size(); i++) {
                             templateDb = templatebasesList[i]
-                            storage1cPath = storages1cPathList[i]
+    
                             testbase = "${templateDb}"
                             
                             if (server1c != null && !server1c.isEmpty()) {
