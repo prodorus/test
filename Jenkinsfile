@@ -31,7 +31,7 @@ pipeline {
         string(defaultValue: "${env.sqlUser}", description: 'Имя администратора сервера MS SQL. Если пустой, то используется доменная  авторизация', name: 'sqlUser')
         string(defaultValue: "${env.sqlPwd}", description: 'Пароль администратора MS SQL.  Если пустой, то используется доменная  авторизация', name: 'sqlPwd')
         string(defaultValue: "${env.templatebases}", description: 'Список баз для тестирования через запятую. Например work_erp,work_upp', name: 'templatebases')
-       
+        string(defaultValue: "${env.gitpath}", description: 'Путь к конфигурации базы данных GIT', name: 'gitpath')
     }
 
     agent {
@@ -72,7 +72,7 @@ pipeline {
                         for (i = 0;  i < templatebasesList.size(); i++) {
                             templateDb = templatebasesList[i]
     
-                            testbase = "${templateDb}"
+                            testbase = "test_${templateDb}"
                             
                             if (server1c != null && !server1c.isEmpty()) {
                                 testbaseConnString = projectHelpers.getConnString(server1c, testbase, agent1cPort)
@@ -121,7 +121,8 @@ pipeline {
                                 testbase, 
                                 testbaseConnString, 
                                 admin1cUser, 
-                                admin1cPwd
+                                admin1cPwd,
+                                gitpath
                             )
 
                             // 6. Запускаем внешнюю обработку 1С, которая очищает базу от всплывающего окна с тем, что база перемещена при старте 1С
@@ -216,13 +217,13 @@ def runSmoke1cTask(infobase, admin1cUser, admin1cPwd, testbaseConnString) {
 
 }
 
-def updateDbTask(platform1c, infobase, connString, admin1cUser, admin1cPwd) {
+def updateDbTask(platform1c, infobase, connString, admin1cUser, admin1cPwd, gitpath) {
     return {
         stage("Загрузка из хранилища ${infobase}") {
             timestamps {
                 prHelpers = new ProjectHelpers()
 
-                prHelpers.loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPwd, platform1c)
+                prHelpers.loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPwd, platform1c, gitpath)
                 prHelpers.updateInfobase(connString, admin1cUser, admin1cPwd, platform1c)
             }
         }

@@ -120,13 +120,13 @@ def dropDb(server1c, agentPort, serverSql, base, admin1cUser, admin1cPwd, sqluse
 // Параметры:
 //
 //
-def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform) {
+def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpath) {
     utils = new Utils()
 
     returnCode = utils.cmd("rd /s/q \"${env.WORKSPACE}/confs")
 
 
-    returnCode = utils.cmd("git clone https://github.com/prodorus/1cconf2 \"${env.WORKSPACE}/confs")
+    returnCode = utils.cmd("git clone ${gitpath} \"${env.WORKSPACE}/confs")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из github  ${infobase} завершилась с ошибкой. ")
     }
