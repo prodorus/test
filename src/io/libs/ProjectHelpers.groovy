@@ -127,7 +127,7 @@ def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform) {
          utils.raiseError("Загрузка конфигурации из 1С хранилища  ${infobase} завершилась с ошибкой. Для подробностей смотрите логи.")
     }
 
-    returnCode = utils.cmd("1cv8 DESIGNER /IBName ${infobase}  /LoadConfigFromFiles \"${env.WORKSPACE}/confs/1cconf1")
+    returnCode = utils.cmd("1cv8 DESIGNER /IBName ${infobase}  /LoadConfigFromFiles \"${env.WORKSPACE}/confs")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из 1С хранилища  ${infobase} завершилась с ошибкой. Для подробностей смотрите логи.")
     }
