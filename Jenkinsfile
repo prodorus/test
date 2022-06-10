@@ -11,7 +11,7 @@ def utils = new Utils()
 def projectHelpers = new ProjectHelpers()
 
 
-
+def createDbTasks = [:]
 def runSmoke1cTasks = [:]
 def updateDbTasks = [:]
 
