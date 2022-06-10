@@ -46,7 +46,7 @@ def getConnString1(local, infobase) {
 // Параметры:
 //
 //
-def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpath) {
+def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpath, 1cpath) {
     utils = new Utils()
 
     returnCode = utils.cmd("rd /s/q \"${env.WORKSPACE}/confs")
