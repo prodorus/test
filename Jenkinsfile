@@ -158,7 +158,7 @@ pipeline {
 }
 def createDbTask(infobase, local) {
     return {
-        stage("Создание 1с базы ${infobase}") {
+        stage("Удаление старой и создание новой 1с базы ${infobase}") {
             timestamps {
                 def projectHelpers = new ProjectHelpers()
                 projectHelpers.creating1cBase(infobase,local)
@@ -189,7 +189,7 @@ def runSmoke1cTask(infobase, admin1cUser, admin1cPwd, testbaseConnString) {
 
 def updateDbTask(platform1c, infobase, connString, admin1cUser, admin1cPwd, gitpath, path1c) {
     return {
-        stage("Загрузка из хранилища ${infobase}") {
+        stage("Загрузка конфигурации из GIT и ее обновление ${infobase}") {
             timestamps {
                 prHelpers = new ProjectHelpers()
 
