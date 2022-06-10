@@ -13,7 +13,7 @@ package io.libs
 def creating1cBase(infobase, local) {
     utils = new Utils()
 
-    utils.powershell("Remove-Item -Recurse -Force -Path \"${local}/test2\" ")
+    utils.powershell("Remove-Item -Recurse -Force -Path \"${local}/${infobase}\" ")
 
     utils.cmd("\"${path1c}\" CREATEINFOBASE FILE=\"${local}/${infobase}\" ")
 }
