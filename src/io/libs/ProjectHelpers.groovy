@@ -10,6 +10,16 @@ package io.libs
 //  cfdt - файловый путь к dt или cf конфигурации для загрузки. Только для пакетного режима!
 //  isras - если true, то используется RAS для скрипта, в противном случае - пакетный режим
 
+def creating1cBase(infobase, local) {
+    utils = new Utils()
+
+    utils.cmd("rd /s/q \"${local}/${infobase} ")
+
+    utils.cmd("\"${path1c}\" CREATEINFOBASE FILE=\"${local}/${infobase}\" ")
+}
+
+
+
 
 // Убирает в 1С базу окошки с тем, что база перемещена, интернет поддержкой, очищает настройки ванессы
 //
