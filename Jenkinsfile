@@ -44,12 +44,7 @@ pipeline {
                 timestamps {
                     script {
                         templatebasesList = utils.lineToArray(templatebases.toLowerCase())
-                        
-
-                        
-                        
-                        agent1cPort = agent1cPort.isEmpty() ? "1541" : agent1cPort
-                        env.sqlUser = sqlUser.isEmpty() ? "sa" : sqlUser
+                    
                         testbase = null
 
                         // создаем пустые каталоги
@@ -68,7 +63,7 @@ pipeline {
                         for (i = 0;  i < templatebasesList.size(); i++) {
                             templateDb = templatebasesList[i]
     
-                            testbase = "test_${templateDb}"
+                            testbase = "${templateDb}"
                             
                            testbaseConnString = projectHelpers.getConnString1(local,testbase)
                             
