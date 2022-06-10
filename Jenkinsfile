@@ -20,7 +20,7 @@ pipeline {
     parameters {
         string(defaultValue: "${env.jenkinsAgent}", description: 'Нода дженкинса, на которой запускать пайплайн. По умолчанию master', name: 'jenkinsAgent')
        
-        string(defaultValue: "${env.1cpath}", description: 'Путь к запуску 1с в формате "C:\Program Files (x86)\1cv8t\8.3.20.1613\bin\1cv8t.exe"', name: '1cpath')
+        string(defaultValue: "${env.1cpath}", description: 'Путь к запуску 1с в формате "C:/Program Files (x86)/1cv8t/8.3.20.1613/bin/1cv8t.exe"', name: '1cpath')
         string(defaultValue: "${env.local}", description: 'Путь к локальным базам, если они находятся не на сервере', name: 'local')
         string(defaultValue: "${env.platform1c}", description: 'Версия платформы 1с, например 8.3.12.1685. По умолчанию будет использована последня версия среди установленных', name: 'platform1c')
         
