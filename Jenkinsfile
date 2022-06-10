@@ -95,7 +95,7 @@ pipeline {
                             
                         }
 
-                        
+                        parallel createDbTasks
                         parallel updateDbTasks
                         parallel runSmoke1cTasks
                         
