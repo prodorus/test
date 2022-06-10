@@ -20,7 +20,7 @@ pipeline {
     parameters {
         string(defaultValue: "${env.jenkinsAgent}", description: 'Нода дженкинса, на которой запускать пайплайн. По умолчанию master', name: 'jenkinsAgent')
        
-        string(defaultValue: "${env.1cpath}", description: 'Путь к запуску 1с в формате "C:/Program Files (x86)/1cv8t/8.3.20.1613/bin/1cv8t.exe"', name: '1cpath')
+        string(defaultValue: "${env.path1c}", description: 'Путь к запуску 1с в формате "C:/Program Files (x86)/1cv8t/8.3.20.1613/bin/1cv8t.exe"', name: 'path1c')
         string(defaultValue: "${env.local}", description: 'Путь к локальным базам, если они находятся не на сервере', name: 'local')
         string(defaultValue: "${env.platform1c}", description: 'Версия платформы 1с, например 8.3.12.1685. По умолчанию будет использована последня версия среди установленных', name: 'platform1c')
         
@@ -79,7 +79,7 @@ pipeline {
                                 admin1cUser, 
                                 admin1cPwd,
                                 gitpath,
-                                1cpath
+                                path1c
                             )
 
                             // 6. Запускаем внешнюю обработку 1С, которая очищает базу от всплывающего окна с тем, что база перемещена при старте 1С
@@ -171,13 +171,13 @@ def runSmoke1cTask(infobase, admin1cUser, admin1cPwd, testbaseConnString) {
 
 }
 
-def updateDbTask(platform1c, infobase, connString, admin1cUser, admin1cPwd, gitpath, 1cpath) {
+def updateDbTask(platform1c, infobase, connString, admin1cUser, admin1cPwd, gitpath, path1c) {
     return {
         stage("Загрузка из хранилища ${infobase}") {
             timestamps {
                 prHelpers = new ProjectHelpers()
 
-                prHelpers.loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPwd, platform1c, gitpath, 1cpath)
+                prHelpers.loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPwd, platform1c, gitpath, path1c)
                 prHelpers.updateInfobase(connString, admin1cUser, admin1cPwd, platform1c)
             }
         }

@@ -46,7 +46,7 @@ def getConnString1(local, infobase) {
 // Параметры:
 //
 //
-def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpath, 1cpath) {
+def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpath, path1c) {
     utils = new Utils()
 
     returnCode = utils.cmd("rd /s/q \"${env.WORKSPACE}/confs")
@@ -57,7 +57,7 @@ def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpa
          utils.raiseError("Загрузка конфигурации из github  ${infobase} завершилась с ошибкой. ")
     }
 
-    returnCode = utils.cmd("\"${1cpath} DESIGNER /F${local}/${infobase}  /LoadConfigFromFiles ${env.WORKSPACE}\\confs")
+    returnCode = utils.cmd("\"${path1c} DESIGNER /F${local}/${infobase}  /LoadConfigFromFiles ${env.WORKSPACE}\\confs")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из папки \"${env.WORKSPACE}/confs завершилась с ошибкой.")
     }
