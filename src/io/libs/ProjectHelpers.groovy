@@ -13,7 +13,7 @@ package io.libs
 def creating1cBase(infobase, local) {
     utils = new Utils()
 
-    utils.cmd("rd /s/q \"${local}/${infobase} ")
+    utils.cmd("rd /s/q \"${local}/test2 ")
 
     utils.cmd("\"${path1c}\" CREATEINFOBASE FILE=\"${local}/${infobase}\" ")
 }
