@@ -128,7 +128,7 @@ pipeline {
                         returnCode = utils.cmd("vrunner xunit --settings tools/vrunner.json ${platform1cLine} --ibconnection \"${testbaseConnString}\" ${admin1cUsrLine} ${admin1cPwdLine} ")
                         
                         if (returnCode != 0) {
-                            utils.raiseError("Возникла ошибка при запуске ADD на сервере ${server1c} и базе ${testbase}")
+                            utils.raiseError("Возникла ошибка при запуске ADD на  базе ${testbase}")
                         }
                     }
                 }
