@@ -133,7 +133,7 @@ def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpa
 
     returnCode = utils.cmd("1cv8 DESIGNER /S${server1c}/${infobase}  /LoadConfigFromFiles ${env.WORKSPACE}\\confs")
     if (returnCode != 0) {
-         utils.raiseError("Загрузка конфигурации из папки  ${infobase} завершилась с ошибкой.")
+         utils.raiseError("Загрузка конфигурации из папки \"${env.WORKSPACE}/confs завершилась с ошибкой.")
     }
 
 }

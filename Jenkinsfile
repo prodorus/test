@@ -9,10 +9,9 @@ import jenkins.model.*
 def sqlUtils = new SqlUtils()
 def utils = new Utils()
 def projectHelpers = new ProjectHelpers()
-def backupTasks = [:]
-def restoreTasks = [:]
-def dropDbTasks = [:]
-def createDbTasks = [:]
+
+
+
 def runSmoke1cTasks = [:]
 def updateDbTasks = [:]
 
@@ -20,16 +19,14 @@ pipeline {
 
     parameters {
         string(defaultValue: "${env.jenkinsAgent}", description: 'Нода дженкинса, на которой запускать пайплайн. По умолчанию master', name: 'jenkinsAgent')
-        string(defaultValue: "${env.server1c}", description: 'Имя сервера 1с, по умолчанию localhost', name: 'server1c')
-        string(defaultValue: "${env.server1cPort}", description: 'Порт рабочего сервера 1с. По умолчанию 1540. Не путать с портом агента кластера (1541)', name: 'server1cPort')
-        string(defaultValue: "${env.agent1cPort}", description: 'Порт агента кластера 1с. По умолчанию 1541', name: 'agent1cPort')
+       
+        
         string(defaultValue: "${env.local}", description: 'Путь к локальным базам, если они находятся не на сервере', name: 'local')
         string(defaultValue: "${env.platform1c}", description: 'Версия платформы 1с, например 8.3.12.1685. По умолчанию будет использована последня версия среди установленных', name: 'platform1c')
-        string(defaultValue: "${env.serverSql}", description: 'Имя сервера MS SQL. По умолчанию localhost', name: 'serverSql')
+        
         string(defaultValue: "${env.admin1cUser}", description: 'Имя администратора с правом открытия вншних обработок (!) для базы тестирования 1с Должен быть одинаковым для всех баз', name: 'admin1cUser')
         string(defaultValue: "${env.admin1cPwd}", description: 'Пароль администратора базы тестирования 1C. Должен быть одинаковым для всех баз', name: 'admin1cPwd')
-        string(defaultValue: "${env.sqlUser}", description: 'Имя администратора сервера MS SQL. Если пустой, то используется доменная  авторизация', name: 'sqlUser')
-        string(defaultValue: "${env.sqlPwd}", description: 'Пароль администратора MS SQL.  Если пустой, то используется доменная  авторизация', name: 'sqlPwd')
+        
         string(defaultValue: "${env.templatebases}", description: 'Список баз для тестирования через запятую. Например work_erp,work_upp', name: 'templatebases')
         string(defaultValue: "${env.gitpath}", description: 'Путь к конфигурации базы данных GIT', name: 'gitpath')
     }
@@ -50,8 +47,7 @@ pipeline {
                         
 
                         
-                        serverSql = serverSql.isEmpty() ? "localhost" : serverSql
-                        server1cPort = server1cPort.isEmpty() ? "1540" : server1cPort
+                        
                         agent1cPort = agent1cPort.isEmpty() ? "1541" : agent1cPort
                         env.sqlUser = sqlUser.isEmpty() ? "sa" : sqlUser
                         testbase = null
@@ -81,40 +77,7 @@ pipeline {
                             
                             
                             backupPath = "${env.WORKSPACE}/build/temp_${templateDb}_${utils.currentDateStamp()}"
-                            // 1. Удаляем тестовую базу из кластера (если он там была) и очищаем клиентский кеш 1с
-                            dropDbTasks["dropDbTask_${testbase}"] = dropDbTask(
-                                server1c, 
-                                server1cPort, 
-                                serverSql, 
-                                testbase, 
-                                admin1cUser, 
-                                admin1cPwd,
-                                sqluser,
-                                sqlPwd
-                            )
-                            // 2. Делаем sql бекап эталонной базы, которую будем загружать в тестовую базу
-                            backupTasks["backupTask_${templateDb}"] = backupTask(
-                                serverSql, 
-                                templateDb, 
-                                backupPath,
-                                sqlUser,
-                                sqlPwd
-                            )
-                            // 3. Загружаем sql бекап эталонной базы в тестовую
-                            restoreTasks["restoreTask_${testbase}"] = restoreTask(
-                                serverSql, 
-                                testbase, 
-                                backupPath,
-                                sqlUser,
-                                sqlPwd
-                            )
-                            // 4. Создаем тестовую базу кластере 1С
-                            createDbTasks["createDbTask_${testbase}"] = createDbTask(
-                                "${server1c}:${agent1cPort}",
-                                serverSql,
-                                platform1c,
-                                testbase
-                            )
+                           
                             // 5. Обновляем тестовую базу из хранилища 1С (если применимо)
                             updateDbTasks["updateTask_${testbase}"] = updateDbTask(
                                 platform1c,
@@ -135,10 +98,7 @@ pipeline {
                             
                         }
 
-                        parallel dropDbTasks
-                        parallel backupTasks
-                        parallel restoreTasks
-                        parallel createDbTasks
+                        
                         parallel updateDbTasks
                         parallel runSmoke1cTasks
                         
@@ -230,56 +190,3 @@ def updateDbTask(platform1c, infobase, connString, admin1cUser, admin1cPwd, gitp
     }
 }
 
-def dropDbTask(server1c, server1cPort, serverSql, infobase, admin1cUser, admin1cPwd, sqluser, sqlPwd) {
-    return {
-        timestamps {
-            stage("Удаление ${infobase}") {
-                def projectHelpers = new ProjectHelpers()
-                def utils = new Utils()
-
-                projectHelpers.dropDb(server1c, server1cPort, serverSql, infobase, admin1cUser, admin1cPwd, sqluser, sqlPwd)
-            }
-        }
-    }
-}
-
-def createDbTask(server1c, serverSql, platform1c, infobase) {
-    return {
-        stage("Создание базы ${infobase}") {
-            timestamps {
-                def projectHelpers = new ProjectHelpers()
-                try {
-                    projectHelpers.createDb(platform1c, server1c, serversql, infobase, null, false)
-                } catch (excp) {
-                    echo "Error happened when creating base ${infobase}. Probably base already exists in the ibases.v8i list. Skip the error"
-                }
-            }
-        }
-    }
-}
-
-def backupTask(serverSql, infobase, backupPath, sqlUser, sqlPwd) {
-    return {
-        stage("sql бекап ${infobase}") {
-            timestamps {
-                def sqlUtils = new SqlUtils()
-
-                sqlUtils.checkDb(serverSql, infobase, sqlUser, sqlPwd)
-                sqlUtils.backupDb(serverSql, infobase, backupPath, sqlUser, sqlPwd)
-            }
-        }
-    }
-}
-
-def restoreTask(serverSql, infobase, backupPath, sqlUser, sqlPwd) {
-    return {
-        stage("Востановление ${infobase} бекапа") {
-            timestamps {
-                sqlUtils = new SqlUtils()
-
-                sqlUtils.createEmptyDb(serverSql, infobase, sqlUser, sqlPwd)
-                sqlUtils.restoreDb(serverSql, infobase, backupPath, sqlUser, sqlPwd)
-            }
-        }
-    }
-}
