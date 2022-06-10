@@ -9,31 +9,7 @@ package io.libs
 //  base - имя базы на сервере 1c и sql
 //  cfdt - файловый путь к dt или cf конфигурации для загрузки. Только для пакетного режима!
 //  isras - если true, то используется RAS для скрипта, в противном случае - пакетный режим
-//
-def createDb(platform, server1c, serversql, base, cfdt, isras) {
-    utils = new Utils()
 
-    cfdtpath = ""
-    if (cfdt != null && !cfdt.isEmpty()) {
-        cfdtpath = "-cfdt ${cfdt}"
-    }
-
-    israspath = ""
-    if (isras) {
-        israspath = "-isras true"
-    }
-
-    platformLine = ""
-    if (platformLine != null && !platformLine.isEmpty()) {
-        platformLine = "-platform ${platform}"
-    }
-
-    
-    returnCode = utils.cmd("oscript one_script_tools/dbcreator.os ${platformLine} -server1c ${server1c} -serversql ${serversql} -base ${base} ${cfdtpath} ${israspath}")
-    if (returnCode != 0) {
-        utils.raiseError("Возникла ошибка при создании базы ${base} в кластере ${serversql}")
-    }
-}
 
 // Убирает в 1С базу окошки с тем, что база перемещена, интернет поддержкой, очищает настройки ванессы
 //
@@ -58,60 +34,10 @@ def unlocking1cBase(connString, admin1cUsr, admin1cPwd) {
     utils.cmd("runner run --execute ${env.WORKSPACE}/one_script_tools/unlockBase1C.epf --command \"-locktype unlock\" ${admin1cUsrLine} ${admin1cPwdLine} --ibconnection=${connString}")
 }
 
-def getConnString(server1c, infobase, agent1cPort) {
-    return "/S${server1c}:${agent1cPort}\\${infobase}"
-}
+
 
 def getConnString1(local, infobase) {
     return "/F${local}\\${infobase}"
-}
-
-// Удаляет базу из кластера через powershell.
-//
-// Параметры:
-//  server1c - сервер 1с 
-//  agentPort - порт агента кластера 1с
-//  serverSql - сервер sql
-//  base - база для удаления из кластера
-//  admin1cUser - имя администратора 1С в кластере для базы
-//  admin1cPwd - пароль администратора 1С в кластере для базы
-//  sqluser - юзер sql
-//  sqlPwd - пароль sql
-//  fulldrop - если true, то удаляется база из кластера 1С и sql сервера
-//
-def dropDb(server1c, agentPort, serverSql, base, admin1cUser, admin1cPwd, sqluser, sqlPwd, fulldrop = false) {
-
-    utils = new Utils()
-    
-    fulldropLine = "";
-    if (fulldrop) {
-        fulldropLine = "-fulldrop true"
-    }
-
-    admin1cUserLine = "";
-    if (admin1cUser != null && !admin1cUser.isEmpty()) {
-        admin1cUserLine = "-user ${admin1cUser}"
-    }
-
-    admin1cPwdLine = "";
-    if (admin1cPwd != null && !admin1cPwd.isEmpty()) {
-        admin1cPwdLine = "-passw ${admin1cPwd}"
-    }
-
-    sqluserLine = "";
-    if (sqluser != null && !sqluser.isEmpty()) {
-        sqluserLine = "-sqluser ${sqluser}"
-    }
-
-    sqlpasswLine = "";
-    if (sqlPwd != null && !sqlPwd.isEmpty()) {
-        sqlpasswLine = "-sqlPwd ${sqlPwd}"
-    }
-
-    returnCode = utils.cmd("powershell -file \"${env.WORKSPACE}/copy_etalon/drop_db.ps1\" -server1c ${server1c} -agentPort ${agentPort} -serverSql ${serverSql} -infobase ${base} ${admin1cUserLine} ${admin1cPwdLine} ${sqluserLine} ${sqlpasswLine} ${fulldropLine}")
-    if (returnCode != 0) { 
-        error "error when deleting base with COM ${server1c}\\${base}. See logs above fore more information."
-    }
 }
 
 // Загружает в базу конфигурацию из 1С хранилища. Базу желательно подключить к хранилищу под загружаемым пользователем,
@@ -131,7 +57,7 @@ def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpa
          utils.raiseError("Загрузка конфигурации из github  ${infobase} завершилась с ошибкой. ")
     }
 
-    returnCode = utils.cmd("1cv8 DESIGNER /S${server1c}/${infobase}  /LoadConfigFromFiles ${env.WORKSPACE}\\confs")
+    returnCode = utils.cmd("1cv8 DESIGNER /F${local}/${infobase}  /LoadConfigFromFiles ${env.WORKSPACE}\\confs")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из папки \"${env.WORKSPACE}/confs завершилась с ошибкой.")
     }

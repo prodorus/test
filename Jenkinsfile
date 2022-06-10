@@ -70,9 +70,7 @@ pipeline {
     
                             testbase = "test_${templateDb}"
                             
-                            if (server1c != null && !server1c.isEmpty()) {
-                                testbaseConnString = projectHelpers.getConnString(server1c, testbase, agent1cPort)
-                            } else testbaseConnString = projectHelpers.getConnString1(local,testbase)
+                           testbaseConnString = projectHelpers.getConnString1(local,testbase)
                             
                             
                             
