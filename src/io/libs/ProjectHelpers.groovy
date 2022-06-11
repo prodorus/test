@@ -10,12 +10,18 @@ package io.libs
 //  cfdt - файловый путь к dt или cf конфигурации для загрузки. Только для пакетного режима!
 //  isras - если true, то используется RAS для скрипта, в противном случае - пакетный режим
 
-def creating1cBase(infobase, local) {
-    utils = new Utils()
+def creating1cBase(infobase, local, deleteornot) {
+    if (deleteornot != null && !deleteornot.isEmpty() && deleteornot =="нет"){
+        
+    } else {
+        utils = new Utils()
 
-    utils.powershell("Remove-Item -Recurse -Force -Path \"${local}/${infobase}\" ")
+        utils.powershell("Remove-Item -Recurse -Force -Path \"${local}/${infobase}\" ")
 
-    utils.cmd("\"${path1c}\" CREATEINFOBASE FILE=\"${local}/${infobase}\" ")
+        utils.cmd("\"${path1c}\" CREATEINFOBASE FILE=\"${local}/${infobase}\" ")
+
+    }
+    
 }
 
 
