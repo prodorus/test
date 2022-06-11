@@ -56,11 +56,11 @@ pipeline {
                 timestamps {
                     script {
 
-                           testbase = "${templatebase}"
+                        
+    
+                            testbase = "${templatebase}"
                             
-                           testbaseConnString = projectHelpers.getConnString1(local,testbase)
-                            
-                            
+                            testbaseConnString = projectHelpers.getConnString1(local,testbase)
                             
                             backupPath = "${env.WORKSPACE}/build/temp_${templateDb}_${utils.currentDateStamp()}"
                            
@@ -89,7 +89,7 @@ pipeline {
                                 testbaseConnString
                             )
                             
-                        }
+                        
 
                         parallel createDbTasks
                         parallel updateDbTasks
@@ -105,7 +105,7 @@ pipeline {
                 timestamps {
                     script {
 
-                        if (templatebase == "") {
+                        if (templatebas == "") {
                             return
                         }
 
