@@ -105,7 +105,7 @@ pipeline {
                 timestamps {
                     script {
 
-                        if (templatebas == "") {
+                        if (templatebase == "") {
                             return
                         }
 
