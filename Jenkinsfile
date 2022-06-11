@@ -161,7 +161,7 @@ def createDbTask(infobase, local, deleteornot) {
         stage("Удаление старой и создание новой 1с базы ${infobase}") {
             timestamps {
                 def projectHelpers = new ProjectHelpers()
-                projectHelpers.creating1cBase(infobase,local)
+                projectHelpers.creating1cBase(infobase,local,deleteornot)
             }
 
         }
