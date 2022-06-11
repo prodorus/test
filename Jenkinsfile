@@ -1,12 +1,11 @@
 @Library("shared-libraries")
-import io.libs.SqlUtils
+
 import io.libs.ProjectHelpers
 import io.libs.Utils
 import jenkins.model.*
 
 
 
-def sqlUtils = new SqlUtils()
 def utils = new Utils()
 def projectHelpers = new ProjectHelpers()
 
