@@ -23,7 +23,7 @@ pipeline {
         string(defaultValue: "${env.platform1c}", description: 'Версия платформы 1с, например 8.3.12.1685. По умолчанию будет использована последня версия среди установленных', name: 'platform1c')
         string(defaultValue: "${env.admin1cUser}", description: 'Имя администратора с правом открытия вншних обработок (!) для базы тестирования 1с Должен быть одинаковым для всех баз', name: 'admin1cUser')
         string(defaultValue: "${env.admin1cPwd}", description: 'Пароль администратора базы тестирования 1C. Должен быть одинаковым для всех баз', name: 'admin1cPwd')
-        string(defaultValue: "${env.templatebases}", description: 'Список баз для тестирования через запятую. Например work_erp,work_upp', name: 'templatebases')
+        string(defaultValue: "${env.templatebase}", description: 'Название базы данных для создания', name: 'templatebase')
         string(defaultValue: "${env.gitpath}", description: 'Путь к конфигурации базы данных GIT', name: 'gitpath')
     }
 
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 timestamps {
                     script {
-                        templatebasesList = utils.lineToArray(templatebases.toLowerCase())
+                        
                     
                         testbase = null
 
@@ -56,10 +56,7 @@ pipeline {
                 timestamps {
                     script {
 
-                        for (i = 0;  i < templatebasesList.size(); i++) {
-                            templateDb = templatebasesList[i]
-    
-                            testbase = "${templateDb}"
+                           testbase = "${templatebase}"
                             
                            testbaseConnString = projectHelpers.getConnString1(local,testbase)
                             
@@ -108,7 +105,7 @@ pipeline {
                 timestamps {
                     script {
 
-                        if (templatebasesList.size() == 0) {
+                        if (templatebase == "") {
                             return
                         }
 
