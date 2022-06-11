@@ -59,10 +59,10 @@ def getConnString1(local, infobase) {
 def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpath, path1c) {
     utils = new Utils()
 
-    returnCode = utils.cmd("rd /s/q \"${env.WORKSPACE}/confs")
+    returnCode = utils.cmd("rd /s/q \"${env.WORKSPACE}/confs/${infobase}")
 
 
-    returnCode = utils.cmd("git clone ${gitpath} \"${env.WORKSPACE}/confs")
+    returnCode = utils.cmd("git clone ${gitpath} \"${env.WORKSPACE}/confs/${infobase}")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из github  ${infobase} завершилась с ошибкой. ")
     }
