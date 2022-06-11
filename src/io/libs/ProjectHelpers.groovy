@@ -76,11 +76,11 @@ def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpa
     }
 
     if (admin1cUser != null && !admin1cUser.isEmpty()) {
-        admin1cUser = ""
+        admin1cUser = "\"\""
     }
 
     if (admin1cPassword != null && !admin1cPassword.isEmpty()) {
-        admin1cPassword = ""
+        admin1cPassword = "\"\""
     }
 
 
