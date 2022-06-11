@@ -62,7 +62,7 @@ pipeline {
                             
                             testbaseConnString = projectHelpers.getConnString1(local,testbase)
                             
-                            backupPath = "${env.WORKSPACE}/build/temp_${templateDb}_${utils.currentDateStamp()}"
+                            backupPath = "${env.WORKSPACE}/build/temp_${templatebase}_${utils.currentDateStamp()}"
                            
                             createDbTasks["createTask_${testbase}"] = createDbTask (
                                 testbase,
