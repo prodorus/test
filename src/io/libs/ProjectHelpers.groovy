@@ -1,15 +1,5 @@
 package io.libs
 
-// Создает базу в кластере через RAS или пакетный режим. Для пакетного режима есть возможность создать базу с конфигурацией
-//
-// Параметры:
-//  platform - номер платформы 1С, например 8.3.12.1529
-//  server1c - сервер 1c
-//  serversql - сервер 1c 
-//  base - имя базы на сервере 1c и sql
-//  cfdt - файловый путь к dt или cf конфигурации для загрузки. Только для пакетного режима!
-//  isras - если true, то используется RAS для скрипта, в противном случае - пакетный режим
-
 def creating1cBase(infobase, local, deleteornot) {
     if (deleteornot != null && !deleteornot.isEmpty() && deleteornot =="нет"){
 
@@ -25,16 +15,7 @@ def creating1cBase(infobase, local, deleteornot) {
     }
     
 }
-
-
-
-
 // Убирает в 1С базу окошки с тем, что база перемещена, интернет поддержкой, очищает настройки ванессы
-//
-// Параметры:
-//  сonnection_string - путь к 1С базе.
-//  admin1cUsr - имя админа 1С базы
-//  admin1cPwd - пароль админа 1С базы
 //
 def unlocking1cBase(connString, admin1cUsr, admin1cPwd) {
     utils = new Utils()
@@ -51,31 +32,19 @@ def unlocking1cBase(connString, admin1cUsr, admin1cPwd) {
 
     utils.cmd("runner run --execute ${env.WORKSPACE}/one_script_tools/unlockBase1C.epf --command \"-locktype unlock\" ${admin1cUsrLine} ${admin1cPwdLine} --ibconnection=${connString}")
 }
-
-
-
 def getConnString1(local, infobase) {
     return "/F${local}\\${infobase}"
 }
 
-// Загружает в базу конфигурацию из 1С хранилища. Базу желательно подключить к хранилищу под загружаемым пользователем,
-//  т.к. это даст буст по скорости загрузки.
-//
-// Параметры:
-//
-//
 def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpath, path1c) {
     utils = new Utils()
 
     returnCode = utils.cmd("rd /s/q \"${env.WORKSPACE}/confs/${infobase}")
 
-
     returnCode = utils.cmd("git clone ${gitpath} \"${env.WORKSPACE}/confs/${infobase}")
     if (returnCode != 0) {
          utils.raiseError("Загрузка конфигурации из github  ${infobase} завершилась с ошибкой. ")
     }
-
-    
 
     if (admin1cPassword != null && !admin1cPassword.isEmpty()) {
         returnCode = utils.cmd("\"${path1c}\" DESIGNER /F${local}/${infobase}  /LoadConfigFromFiles ${env.WORKSPACE}\\confs\\${infobase} /N ${admin1cUser} /P ${admin1cPassword} ")
@@ -87,22 +56,9 @@ def loadCfgFrom1CStorage(infobase, admin1cUser, admin1cPassword, platform, gitpa
         if (returnCode != 0) {
             utils.raiseError("Загрузка конфигурации из папки \"${env.WORKSPACE}/confs завершилась с ошибкой.")
     }
-
-
     }
-
-
-    
 }
-
 // Обновляет базу в режиме конфигуратора. Аналог нажатия кнопки f7
-//
-// Параметры:
-//
-//  connString - строка соединения, например /Sdevadapter\template_adapter_adapter
-//  platform - полный номер платформы 1с
-//  admin1cUser - администратор базы
-//  admin1cPassword - пароль администратора базы
 //
 def updateInfobase(connString, admin1cUser, admin1cPassword, platform) {
 
